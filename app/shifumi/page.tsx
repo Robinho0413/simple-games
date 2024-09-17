@@ -1,67 +1,112 @@
 'use client';
 
 import { useState } from "react";
+import { Button } from "../components/button";
+
+
+const choices = ['pierre', 'feuille', 'ciseaux'];
+
+function getRandomChoice() {
+    const randomIndex = Math.floor(Math.random() * choices.length);
+    return choices[randomIndex];
+}
+
+function determineWinner(userChoice: string, computerChoice: string) {
+    if (userChoice === computerChoice) {
+        return 'Égalité';
+    }
+
+    if (
+        (userChoice === 'pierre' && computerChoice === 'ciseaux') ||
+        (userChoice === 'feuille' && computerChoice === 'pierre') ||
+        (userChoice === 'ciseaux' && computerChoice === 'feuille')
+    ) {
+        return 'Gagné';
+    }
+
+    return 'Perdu';
+}
+
 
 export default function Home() {
     const [startGame, setstartGame] = useState(false);
+    const [userChoice, setUserChoice] = useState('');
+    const [computerChoice, setComputerChoice] = useState('');
+    const [result, setResult] = useState('');
 
-    const [choice, setChoice] = useState('');
 
     const handleStart = (option: boolean) => {
         setstartGame(option);
     };
-
-    const handleChoice = (option: string) => {
-        setChoice(option);
+    const handleUserChoice = (choice: string) => {
+        const computerChoice = getRandomChoice();
+        setUserChoice(choice);
+        setComputerChoice(computerChoice);
+        setResult(determineWinner(choice, computerChoice));
     };
+
 
     function ChoiceButtons() {
         if (startGame) {
             return (
                 <>
-                    <h2>Faites votre choix</h2>
                     <div className="flex flex-row gap-6">
-                        <button
-                            onClick={() => handleChoice('Pierre')}
-                            className="bg-slate-300 p-3 rounded-lg"
+                        <Button
+                            onClick={() => handleUserChoice('pierre')}
+                            intent={"primary"}
+                            size={'large'}
                         >
                             Pierre
-                        </button>
-                        <button
-                            onClick={() => handleChoice('Feuille')}
-                            className="bg-slate-300 p-3 rounded-lg"
+                        </Button>
+                        <Button
+                            onClick={() => handleUserChoice('feuille')}
+                            intent={"primary"}
+                            size={'large'}
                         >
                             Feuille
-                        </button>
-                        <button
-                            onClick={() => handleChoice('Ciseaux')}
-                            className="bg-slate-300 p-3 rounded-lg"
+                        </Button>
+                        <Button
+                            onClick={() => handleUserChoice('ciseaux')}
+                            intent={"primary"}
+                            size={'large'}
                         >
                             Ciseaux
-                        </button>
+                        </Button>
                     </div>
                 </>
             )
         }
         return (
             <>
-                <button
+                <Button
                     onClick={() => handleStart(true)}
-                    className="bg-slate-300 p-3 rounded-lg"
+                    intent={"primary"}
+                    size={'xl'}
                 >
                     Jouer
-                </button>
+                </Button>
             </>
         )
     }
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col justify-between h-full">
             <h1 className="text-5xl uppercase font-black">Shifumi</h1>
-            <div>
-                <div className="flex flex-col gap-4">
+            <div className="flex flex-col justify-between items-center h-full p-10">
+
+                <div>
+                    <p className="text-4xl font-bold">{computerChoice}</p>
+                </div>
+
+                <div>
+                    <p className="text-5xl font-bold">{result}</p>
+                </div>
+
+                <div className="flex flex-col justify-center items-center gap-8">
+                    <p className="text-4xl font-bold">{userChoice}</p>
                     <ChoiceButtons />
                 </div>
+
             </div>
         </div>
     );
