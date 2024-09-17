@@ -9,7 +9,8 @@ const button = cva("button", {
         "text-black",
         "border-transparent",
         "rounded-lg",
-        "font-semibold"
+        "font-semibold",
+        "hover:bg-opacity-80"
       ],
       outline: [
         "bg-transparent",

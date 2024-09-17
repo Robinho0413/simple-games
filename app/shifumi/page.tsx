@@ -5,6 +5,8 @@ import { Button } from "../components/button";
 
 
 const choices = ['pierre', 'feuille', 'ciseaux'];
+var score = 0;
+var winstreak = 0;
 
 function getRandomChoice() {
     const randomIndex = Math.floor(Math.random() * choices.length);
@@ -13,6 +15,7 @@ function getRandomChoice() {
 
 function determineWinner(userChoice: string, computerChoice: string) {
     if (userChoice === computerChoice) {
+        winstreak = 0;
         return 'Égalité';
     }
 
@@ -21,9 +24,12 @@ function determineWinner(userChoice: string, computerChoice: string) {
         (userChoice === 'feuille' && computerChoice === 'pierre') ||
         (userChoice === 'ciseaux' && computerChoice === 'feuille')
     ) {
+        winstreak += 1;
+        score += winstreak * 2;
         return 'Gagné';
     }
-
+    winstreak = 0;
+    score = 0;
     return 'Perdu';
 }
 
@@ -91,7 +97,10 @@ export default function Home() {
 
     return (
         <div className="flex flex-col justify-between h-full">
-            <h1 className="text-5xl uppercase font-black">Shifumi</h1>
+            <div className="flex flex-row justify-between items-center text-center">
+                <h1 className="text-5xl uppercase font-black">Shifumi</h1>
+                <h2 className="text-4xl font-black">score: {score}</h2>
+            </div>
             <div className="flex flex-col justify-between items-center h-full p-10">
 
                 <div>
@@ -100,6 +109,7 @@ export default function Home() {
 
                 <div>
                     <p className="text-5xl font-bold">{result}</p>
+                    <p className="text-4xl font-black">{winstreak}</p>
                 </div>
 
                 <div className="flex flex-col justify-center items-center gap-8">
