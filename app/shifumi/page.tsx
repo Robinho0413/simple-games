@@ -109,7 +109,9 @@ export default function Home() {
 
                 <div>
                     <p className="text-5xl font-bold">{result}</p>
-                    <p className="text-4xl font-black">{winstreak}</p>
+                    {winstreak > 2 && (
+                        <p className="text-4xl font-black">{winstreak}</p>
+                    )}
                 </div>
 
                 <div className="flex flex-col justify-center items-center gap-8">
